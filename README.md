@@ -1,234 +1,211 @@
-\# ECE 486 Robotics Labs
+# Vision-Guided Robotic Manipulator
 
+A robotics project integrating **kinematics, trajectory planning, computer vision, coordinate transformation, and autonomous manipulation** using the Dobot Magician robotic arm.
 
+The system was progressively developed from fundamental robot motion and workspace validation to a complete vision-guided pick-and-place pipeline capable of detecting objects, transforming visual coordinates into the robot frame, and autonomously manipulating objects using a suction-cup end effector.
 
-A collection of five robotics laboratory projects completed for ECE 486 at the University of Waterloo.
+## System Overview
 
+The project follows the complete development pipeline:
 
+**Workspace Validation & Trajectory Planning**  
+↓  
+**Forward Kinematics**  
+↓  
+**Inverse Kinematics**  
+↓  
+**Camera-to-Robot Transformation**  
+↓  
+**Vision-Based Motion**  
+↓  
+**Autonomous Pick-and-Place**
 
-The labs progressively develop a robotics software pipeline for the Dobot Magician, beginning with workspace validation and trajectory generation, then introducing forward and inverse kinematics, camera-to-robot calibration, computer vision, and autonomous manipulation.
+The final system combines robot kinematics and computer vision to identify objects in the camera image, determine their positions in the robot coordinate frame, and execute autonomous manipulation tasks.
 
+---
 
+## 1. Workspace Validation & Trajectory Planning
 
-\## Project Progression
+The first stage establishes safe robot motion within the Dobot Magician workspace.
 
+Implemented functionality includes:
 
+- Cartesian workspace validation
+- Straight-line path sampling and collision-aware workspace checking
+- Safe robot movement commands
+- Circular Cartesian trajectory generation
+- Target and measured position recording
+- Trajectory tracking error analysis
+- Simulation and physical robot validation
 
-\*\*Workspace \& Trajectory Planning → Forward Kinematics → Inverse Kinematics → Camera-to-Robot Transformation → Vision-Based Motion → Autonomous Pick-and-Place\*\*
+### Trajectory Tracking
 
+![Trajectory Error](lab1-workspace-trajectory/results/error_vs_sample.png)
 
+### Simulation and Physical Robot Tests
 
-\## Lab 1 — Workspace Validation \& Trajectory Planning
+| Simulation | Physical Robot |
+|---|---|
+| ![Simulation](lab1-workspace-trajectory/results/simulation_run.png) | ![Physical Robot](lab1-workspace-trajectory/results/physical_robot_run.png) |
 
+[Source Code](lab1-workspace-trajectory/src/workspace_trajectory.py) · [Experimental Results](lab1-workspace-trajectory/results/trajectory_results.csv) · [Report](lab1-workspace-trajectory/report/lab1_report.pdf)
 
+---
 
-Implemented workspace and path validation for safe robot motion and generated Cartesian trajectories for the Dobot Magician.
+## 2. Forward Kinematics
 
+A forward kinematics model was developed to calculate the Cartesian position of the robot end effector from its joint configuration.
 
+The implementation includes:
 
-Key components:
+- Joint-space representation of the Dobot Magician
+- Analytical forward kinematics
+- End-effector position calculation
+- Validation using experimental robot data
+- Comparison between predicted and measured positions
 
-\- Cartesian workspace validation
+The model provides the mathematical foundation required for later inverse kinematics and vision-based control.
 
-\- Straight-line path sampling and safety checking
+[Source Code](lab2-forward-kinematics/src/forward_kinematics.py) · [Validation Data](lab2-forward-kinematics/data/fk_validation_data.txt) · [Report](lab2-forward-kinematics/report/lab2_report.pdf)
 
-\- Safe robot motion commands
+---
 
-\- Circular trajectory generation
+## 3. Inverse Kinematics & Coordinate Transformation
 
-\- Target vs. measured trajectory comparison
+The system was extended with inverse kinematics to convert desired Cartesian positions into robot joint configurations.
 
-\- Simulation and physical robot testing
+Implemented functionality includes:
 
+- Analytical inverse kinematics
+- Cartesian-to-joint-space conversion
+- Inverse kinematics validation
+- Camera-to-robot coordinate transformation
+- Experimental transformation validation
 
+The coordinate transformation enables positions observed by the camera to be represented in the robot coordinate system, forming the connection between computer vision and robot control.
 
-!\[Trajectory Error](lab1-workspace-trajectory/results/error\_vs\_sample.png)
+[Source Code](lab3-inverse-kinematics/src/inverse_kinematics.py) · [Transformation Results](lab3-inverse-kinematics/data/transformation_validation.csv) · [Report](lab3-inverse-kinematics/report/lab3_report.pdf)
 
+---
 
+## 4. Vision-Guided Robot Motion
 
-\[Source Code](lab1-workspace-trajectory/src/workspace\_trajectory.py) | \[Lab Report](lab1-workspace-trajectory/report/lab1\_report.pdf)
+Computer vision was integrated with the robot control pipeline to enable movement based on visual targets.
 
+The system incorporates:
 
+- Camera calibration
+- ArUco marker detection
+- Camera-to-robot coordinate mapping
+- Vision-restricted workspace validation
+- Visual target localization
+- Robot positioning based on detected markers
+- Physical robot validation
 
-\## Lab 2 — Forward Kinematics
+This stage enables the robot to interpret visual information and convert detected image locations into executable robot motion.
 
+[Source Code](lab4-vision-based-motion/src/vision_based_motion.py) · [Experimental Results](lab4-vision-based-motion/results/vision_motion_results.csv) · [Report](lab4-vision-based-motion/report/lab4_report.pdf)
 
+---
 
-Developed and validated a forward kinematics model for the Dobot Magician.
+## 5. Autonomous Vision-Based Pick-and-Place
 
+The final stage integrates the previous components into an autonomous object manipulation system.
 
+Objects are detected using image processing, transformed from image coordinates into the robot coordinate frame, and moved to a target location using a suction-cup end effector.
 
-Key components:
+The manipulation pipeline includes:
 
-\- Joint-space representation
+1. Capture the workspace using the camera
+2. Detect objects using HSV-based segmentation
+3. Filter detected contours
+4. Determine object center positions
+5. Transform image coordinates into robot coordinates
+6. Detect the target ArUco marker
+7. Move the robot to the detected object
+8. Activate the suction-cup end effector
+9. Move the object to the target location
+10. Release the object and repeat the process
 
-\- Analytical forward kinematics
+### Vision Detection
 
-\- End-effector position prediction
+![Vision Detection](lab5-vision-pick-and-place/results/vision_test_image.png)
 
-\- Validation using experimental data
+### Multi-Object Detection
 
-\- Comparison between predicted and measured robot positions
+![Multiple Blocks](lab5-vision-pick-and-place/results/multiple_blocks.png)
 
+### Obstacle Tests
 
+| Test 1 | Test 2 |
+|---|---|
+| ![Obstacle Test](lab5-vision-pick-and-place/results/obstacle_test.png) | ![Obstacle Test 2](lab5-vision-pick-and-place/results/obstacle_test_2.png) |
 
-\[Source Code](lab2-forward-kinematics/src/forward\_kinematics.py) | \[Lab Report](lab2-forward-kinematics/report/lab2\_report.pdf)
+[Source Code](lab5-vision-pick-and-place/src/vision_pick_and_place.py) · [Report](lab5-vision-pick-and-place/report/lab5_report.pdf)
 
+---
 
+## Technologies
 
-\## Lab 3 — Inverse Kinematics \& Coordinate Transformation
+- Python
+- NumPy
+- OpenCV
+- MuJoCo
+- Dobot Magician
+- ArUco Markers
+- Computer Vision
+- Forward & Inverse Kinematics
+- Coordinate Transformations
+- Trajectory Planning
+- Autonomous Manipulation
 
+---
 
-
-Extended the robot model with inverse kinematics and camera-to-robot coordinate transformation.
-
-
-
-Key components:
-
-\- Analytical inverse kinematics
-
-\- Cartesian-to-joint-space conversion
-
-\- IK validation
-
-\- Camera-to-robot coordinate transformation
-
-\- Transformation validation using experimental measurements
-
-
-
-\[Source Code](lab3-inverse-kinematics/src/inverse\_kinematics.py) | \[Lab Report](lab3-inverse-kinematics/report/lab3\_report.pdf)
-
-
-
-\## Lab 4 — Vision-Based Robot Motion
-
-
-
-Integrated computer vision with robot control to enable motion toward visual targets.
-
-
-
-Key components:
-
-\- Camera calibration
-
-\- ArUco marker detection
-
-\- Camera-to-robot coordinate mapping
-
-\- Vision-restricted workspace checking
-
-\- Robot positioning based on detected markers
-
-\- Physical robot validation
-
-
-
-\[Source Code](lab4-vision-based-motion/src/vision\_based\_motion.py) | \[Lab Report](lab4-vision-based-motion/report/lab4\_report.pdf)
-
-
-
-\## Lab 5 — Autonomous Vision-Based Pick-and-Place
-
-
-
-Developed a vision-based manipulation pipeline for detecting and relocating objects using the Dobot Magician and a suction-cup end effector.
-
-
-
-Key components:
-
-\- HSV-based object segmentation
-
-\- Contour detection and filtering
-
-\- Pixel-to-robot coordinate transformation
-
-\- ArUco marker target localization
-
-\- Automated object pickup
-
-\- Suction-cup control
-
-\- Autonomous pick-and-place sequence
-
-
-
-!\[Vision Detection](lab5-vision-pick-and-place/results/vision\_test\_image.png)
-
-
-
-\[Source Code](lab5-vision-pick-and-place/src/vision\_pick\_and\_place.py) | \[Lab Report](lab5-vision-pick-and-place/report/lab5\_report.pdf)
-
-
-
-\## Technologies
-
-
-
-\- Python
-
-\- NumPy
-
-\- OpenCV
-
-\- MuJoCo
-
-\- Dobot Magician
-
-\- ArUco markers
-
-\- Computer Vision
-
-\- Robot Kinematics
-
-\- Coordinate Transformations
-
-\- Autonomous Manipulation
-
-
-
-\## Repository Structure
-
-
+## Repository Structure
 
 ```text
-
-ECE486-Robotics-Labs/
-
+Vision-Guided-Robotic-Manipulator/
+│
 ├── lab1-workspace-trajectory/
-
+│   ├── src/
+│   ├── results/
+│   └── report/
+│
 ├── lab2-forward-kinematics/
-
+│   ├── src/
+│   ├── data/
+│   └── report/
+│
 ├── lab3-inverse-kinematics/
-
+│   ├── src/
+│   ├── data/
+│   └── report/
+│
 ├── lab4-vision-based-motion/
-
+│   ├── src/
+│   ├── results/
+│   └── report/
+│
 ├── lab5-vision-pick-and-place/
-
+│   ├── src/
+│   ├── results/
+│   └── report/
+│
 ├── .gitignore
-
 └── README.md
-
 ```
 
+---
 
+## Project Background
 
-\## Notes
+This project was developed through ECE 486 laboratory work at the University of Waterloo using the Dobot Magician robotic platform.
 
+Course-provided starter code, robot interfaces, and simulation infrastructure were used as the foundation for portions of the laboratory environment. The repository presents the implemented algorithms, experimental logic, validation procedures, and project-specific development completed throughout the project.
 
+---
 
-The laboratory work was developed using course-provided starter code and robot interfaces. The implementations in this repository contain the completed algorithms, experimental logic, validation procedures, and project-specific modifications developed for the laboratory assignments.
+## Author
 
-
-
-\## Author
-
-
-
-Hanhua Ge  
-
+**Hanhua Ge**  
 University of Waterloo
-
