@@ -1,6 +1,14 @@
 # Vision-Guided Robotic Manipulator
 
-A robotics project integrating **kinematics, trajectory planning, computer vision, coordinate transformation, and autonomous manipulation** using the Dobot Magician robotic arm.
+A robotics project integrating **kinematics, trajectory planning, computer vision, coordinate transformation, and autonomous manipulation** using the Dobot Magician robotic platform.
+
+<p align="center">
+  <img src="assets/dobot_magician.jpg" width="850">
+</p>
+
+<p align="center">
+  <em>Dobot Magician robotic platform used for system development and experimental validation.</em>
+</p>
 
 The system was progressively developed from fundamental robot motion and workspace validation to a complete vision-guided pick-and-place pipeline capable of detecting objects, transforming visual coordinates into the robot frame, and autonomously manipulating objects using a suction-cup end effector.
 
@@ -40,13 +48,15 @@ Implemented functionality includes:
 
 ### Trajectory Tracking
 
-![Trajectory Error](lab1-workspace-trajectory/results/error_vs_sample.png)
+<p align="center">
+  <img src="lab1-workspace-trajectory/results/error_vs_sample.png" width="750">
+</p>
 
 ### Simulation and Physical Robot Tests
 
 | Simulation | Physical Robot |
 |---|---|
-| ![Simulation](lab1-workspace-trajectory/results/simulation_run.png) | ![Physical Robot](lab1-workspace-trajectory/results/physical_robot_run.png) |
+| ![](lab1-workspace-trajectory/results/simulation_run.png) | ![](lab1-workspace-trajectory/results/physical_robot_run.png) |
 
 [Source Code](lab1-workspace-trajectory/src/workspace_trajectory.py) · [Experimental Results](lab1-workspace-trajectory/results/trajectory_results.csv) · [Report](lab1-workspace-trajectory/report/lab1_report.pdf)
 
@@ -102,8 +112,6 @@ The system incorporates:
 - Robot positioning based on detected markers
 - Physical robot validation
 
-This stage enables the robot to interpret visual information and convert detected image locations into executable robot motion.
-
 [Source Code](lab4-vision-based-motion/src/vision_based_motion.py) · [Experimental Results](lab4-vision-based-motion/results/vision_motion_results.csv) · [Report](lab4-vision-based-motion/report/lab4_report.pdf)
 
 ---
@@ -129,17 +137,21 @@ The manipulation pipeline includes:
 
 ### Vision Detection
 
-![Vision Detection](lab5-vision-pick-and-place/results/vision_test_image.png)
+<p align="center">
+  <img src="lab5-vision-pick-and-place/results/vision_test_image.png" width="750">
+</p>
 
 ### Multi-Object Detection
 
-![Multiple Blocks](lab5-vision-pick-and-place/results/multiple_blocks.png)
+<p align="center">
+  <img src="lab5-vision-pick-and-place/results/multiple_blocks.png" width="750">
+</p>
 
-### Obstacle Tests
+### Vision Validation Tests
 
 | Test 1 | Test 2 |
 |---|---|
-| ![Obstacle Test](lab5-vision-pick-and-place/results/obstacle_test.png) | ![Obstacle Test 2](lab5-vision-pick-and-place/results/obstacle_test_2.png) |
+| ![](lab5-vision-pick-and-place/results/obstacle_test.png) | ![](lab5-vision-pick-and-place/results/obstacle_test_2.png) |
 
 [Source Code](lab5-vision-pick-and-place/src/vision_pick_and_place.py) · [Report](lab5-vision-pick-and-place/report/lab5_report.pdf)
 
@@ -165,6 +177,9 @@ The manipulation pipeline includes:
 
 ```text
 Vision-Guided-Robotic-Manipulator/
+│
+├── assets/
+│   └── dobot_magician.jpg
 │
 ├── lab1-workspace-trajectory/
 │   ├── src/
